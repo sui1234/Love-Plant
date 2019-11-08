@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
@@ -11,9 +12,40 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_gravity="top|center"
-        android:textAlignment="center"
         android:background="#46900F"
         android:text="@string/title_add"
+        android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="34dp" />
+
+    <ImageView
+
+        android:id="@+id/capturePicture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        tools:ignore="VectorDrawableCompat"
+        android:layout_marginTop="120dp"
+        android:layout_marginBottom="200dp"
+        />
+
+    <ImageView
+
+        android:layout_marginTop="200dp"
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/ic_camera_with_white_lens"
+        android:layout_gravity="center"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="250dp"
+        android:text="@string/camera" />
+
+
 </FrameLayout>
