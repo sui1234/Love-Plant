@@ -1,3 +1,5 @@
+package com.example.loveplant;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,17 +9,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.loveplant.R;
-import com.example.loveplant.Watering;
-
 import java.util.List;
 
-public class RecycleViewAdopter extends RecyclerView.Adapter<RecycleViewAdopter.MyViewHolder> {
+public class RecyclerViewAdopter extends RecyclerView.Adapter<RecyclerViewAdopter.MyViewHolder> {
 
     Context mContext;
     List<Watering> data;
 
-    public RecycleViewAdopter(Context mContext, List<Watering> data) {
+    public RecyclerViewAdopter(Context mContext, List<Watering> data) {
         this.mContext = mContext;
         this.data = data;
     }
