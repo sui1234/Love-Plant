@@ -4,4 +4,7 @@
     <string name="title_add"> Add a new plant</string>
     <string name="title_my_plants"> My plants</string>
     <string name="camera">Click camera icon to take a photo</string>
+    <string name="name">Name</string>
+    <string name="days">Days to water</string>
+    <string name="saveButton">Save</string>
 </resources>
