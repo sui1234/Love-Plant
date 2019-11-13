@@ -3,6 +3,7 @@ package com.example.loveplant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -12,15 +13,20 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static MyAppDatabase myAppDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        myAppDatabase = Room.databaseBuilder(getApplicationContext(),MyAppDatabase.class,"plantinfodb").allowMainThreadQueries().build();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WateringFragment()).commit();
+
 
 
     }
