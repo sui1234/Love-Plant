@@ -1,6 +1,5 @@
 package com.example.loveplant;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +32,7 @@ public class WateringFragment extends Fragment {
 
         v = inflater.inflate(R.layout.watering_fragment,container,false);
         recyclerView = v.findViewById(R.id.watering_recyclerview);
-        RecyclerViewAdopter recyclerViewAdopter = new RecyclerViewAdopter(getContext(), listWat);
+        RecyclerViewAdopterW recyclerViewAdopter = new RecyclerViewAdopterW(getContext(), listWat);
 
         recyclerView.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -49,8 +48,8 @@ public class WateringFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listWat = new ArrayList<>();
-        listWat.add(new Watering(R.drawable.tree,R.drawable.tree));
-        listWat.add(new Watering(R.drawable.tree,R.drawable.tree));
+        listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
+        listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
     }
 }
 

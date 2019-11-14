@@ -1,25 +1,36 @@
 package com.example.loveplant;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "plantInfos")
+@Entity(primaryKeys = {"name", "day"}, tableName = "plantinfo")
 public class PlantInfo {
 
-    //@PrimaryKey
-    //private int id;
 
-    @ColumnInfo(name = "plant_name")
-    private String name;
 
-    @ColumnInfo(name = "plant_day")
-    private String day;
+    //@ColumnInfo(name = "name")
+    @NonNull
+    public String name;
 
-    //public int getId() {
-    //    return id;
-    //}
+   // @ColumnInfo(name = "day")
+    @NonNull
+    public String day;
+
+   // @ColumnInfo(name = "image")
+    @NonNull
+    public String image;
+
+    public void setImageUri(@NonNull String image) {
+        this.image = image;
+    }
+
+    @NonNull
+    public String getImage() {
+        return image;
+    }
 
     public String getName() {
         return name;
@@ -29,9 +40,6 @@ public class PlantInfo {
         return day;
     }
 
-    //public void setId(int id) {
-    //    this.id = id;
-    //}
 
     public void setName(String name) {
         this.name = name;

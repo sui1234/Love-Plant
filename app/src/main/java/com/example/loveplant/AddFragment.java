@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -75,17 +77,14 @@ public class AddFragment extends Fragment {
         textView = v.findViewById(R.id.textView);
 
 
-
-
         cameraIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 startActivityForResult(intent, Image_Capture_Code);
-                //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+                //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                // Uri photoUri = Uri.fromFile(new File(mFilePath)); // pass path
                 //Uri photoUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",new File(mFilePath));
                 //intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);// change path
@@ -105,14 +104,21 @@ public class AddFragment extends Fragment {
                         String inputName= nameEdit.getText().toString();
                         String inputDays = daysEdit.getText().toString();
 
+                        //set user input data to PlantInfo
                         PlantInfo plantInfo = new PlantInfo();
                         plantInfo.setName(inputName);
                         plantInfo.setDay(inputDays);
+                        plantInfo.setImageUri( bitmapToString(bitmap));
 
+                        //save the data to room database
                         MainActivity.myAppDatabase.myDao().addPlant(plantInfo);
 
                         Toast.makeText(getActivity(),"Plantinfo added succesfully",Toast.LENGTH_SHORT).show();
 
+
+                        Intent intent;
+                        intent = new Intent(getActivity(),MainActivity.class);
+                        startActivity(intent);
 
                         break;
                         default:
@@ -135,8 +141,10 @@ public class AddFragment extends Fragment {
 
         if (requestCode == Image_Capture_Code) {
             if (resultCode == RESULT_OK) {
-                Bitmap bp = (Bitmap) data.getExtras().get("data");
-                capturePicture.setImageBitmap(bp);
+                bitmap = (Bitmap) data.getExtras().get("data");
+                //selectedImageUri = data.getData();
+
+                capturePicture.setImageBitmap(bitmap);
                 cameraIcon.setVisibility(getView().GONE);
                 textView.setVisibility(getView().GONE);
 
@@ -191,17 +199,15 @@ public class AddFragment extends Fragment {
 
     }
 
-    private boolean hasSDCard() {
-        // 获取外部存储的状态
-        String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            // 有SD卡
-            return true;
-        }
-        return false;
+//ba bitmap zhuanhuan string
+    public String bitmapToString(Bitmap bitmap){
+        String string=null;
+        ByteArrayOutputStream bStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
+        byte[]bytes=bStream.toByteArray();
+        string=Base64.encodeToString(bytes,Base64.DEFAULT);
+        return string;
     }
-
-
 
 
 

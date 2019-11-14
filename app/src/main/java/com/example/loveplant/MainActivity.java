@@ -20,8 +20,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myAppDatabase = Room.databaseBuilder(getApplicationContext(),MyAppDatabase.class,"plantinfodb")
+                .allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
-        myAppDatabase = Room.databaseBuilder(getApplicationContext(),MyAppDatabase.class,"plantinfodb").allowMainThreadQueries().build();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);

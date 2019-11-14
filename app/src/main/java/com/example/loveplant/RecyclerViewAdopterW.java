@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class RecyclerViewAdopter extends RecyclerView.Adapter<RecyclerViewAdopter.MyViewHolder> {
+public class RecyclerViewAdopterW extends RecyclerView.Adapter<RecyclerViewAdopterW.MyViewHolder> {
 
     Context mContext;
     List<Watering> data;
 
-    public RecyclerViewAdopter(Context mContext, List<Watering> data) {
+    public RecyclerViewAdopterW(Context mContext, List<Watering> data) {
         this.mContext = mContext;
         this.data = data;
     }
@@ -51,7 +51,7 @@ public class RecyclerViewAdopter extends RecyclerView.Adapter<RecyclerViewAdopte
         private ImageView imgWater;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgWateringPlant = (ImageView) itemView.findViewById(R.id.img_watering_plant);
+            imgWateringPlant = (ImageView) itemView.findViewById(R.id.img_my_plant);
             imgWater = (ImageView) itemView.findViewById(R.id.blue_water);
         }
     }
