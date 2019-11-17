@@ -4,17 +4,17 @@ public class Plant {
     private String image;
     private String name;
     private String days;
-    private String wateringLastTime;
+    private String daysLeft;
 
     public Plant() {
 
     }
 
-    public Plant(String image, String name, String days, String wateringLastTime) {
+    public Plant(String image, String name, String days, String daysLeft) {
         this.image = image;
         this.name = name;
         this.days = days;
-        this.wateringLastTime = wateringLastTime;
+        this.daysLeft = daysLeft;
     }
 
     public void setImage(String image) {
@@ -30,7 +30,7 @@ public class Plant {
     }
 
     public void setWateringLastTime(String wateringLastTime) {
-        this.wateringLastTime = wateringLastTime;
+        this.daysLeft = wateringLastTime;
     }
 
     public String getImage() {
@@ -46,6 +46,6 @@ public class Plant {
     }
 
     public String getWateringLastTime() {
-        return wateringLastTime;
+        return daysLeft;
     }
 }

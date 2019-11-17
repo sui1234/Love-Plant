@@ -1,6 +1,7 @@
 package com.example.loveplant;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import static android.net.Uri.parse;
 
 public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopterP.MyViewHolder> {
 
@@ -37,9 +40,10 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.imgMyPlant.setImageURI(data.get(position).getImage());
+        //get imageUri and parse it.
+        holder.imgMyPlant.setImageURI(Uri.parse(data.get(position).getImage()));
 
-        holder.imgMyPlant.setImageBitmap(data.get(position).getImage());
+        //holder.imgMyPlant.setImageResource(R.drawable.tree);
         holder.plantName.setText(data.get(position).getName());
         holder.days.setText(data.get(position).getDays());
         holder.lastTime.setText(data.get(position).getWateringLastTime());
@@ -68,7 +72,4 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
 
         }
     }
-
-
-
 }

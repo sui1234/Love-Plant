@@ -24,12 +24,19 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -51,8 +58,8 @@ public class AddFragment extends Fragment {
 
     //private String mFilePath;
     private Bitmap bitmap;
-
-    private static final int Image_Capture_Code = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    String currentPhotoPath;
 
     @Nullable
     @Override
@@ -68,24 +75,27 @@ public class AddFragment extends Fragment {
         daysEdit = v.findViewById(R.id.daysEdit);
         save = v.findViewById(R.id.saveButton);
 
-        //mFilePath = Environment.getExternalStorageDirectory().getPath();// get sd directory
-        //mFilePath = mFilePath + "/" + "flower.png";
-        //Log.d("sui",mFilePath);
+        /*mFilePath = Environment.getExternalStorageDirectory().getPath();// get sd directory
+        mFilePath = mFilePath + "/" + "temp.png";
+        Log.d("sui",mFilePath);*/
 
         cameraIcon = v.findViewById(R.id.cameraIcon);
         capturePicture = v.findViewById(R.id.capturePicture);
         textView = v.findViewById(R.id.textView);
 
 
+        //cameraIcon.setOnClickListener(this);
+        //save.setOnClickListener(this);
         cameraIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, Image_Capture_Code);
+                //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                //startActivityForResult(intent, Image_Capture_Code);
+                dispatchTakePictureIntent();
 
                 //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-               // Uri photoUri = Uri.fromFile(new File(mFilePath)); // pass path
+                // Uri photoUri = Uri.fromFile(new File(mFilePath)); // pass path
                 //Uri photoUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",new File(mFilePath));
                 //intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);// change path
                 //Log.d("sui photouri",photoUri.toString());
@@ -108,11 +118,13 @@ public class AddFragment extends Fragment {
                         PlantInfo plantInfo = new PlantInfo();
                         plantInfo.setName(inputName);
                         plantInfo.setDay(inputDays);
-                        plantInfo.setImageUri( bitmapToString(bitmap));
+                        plantInfo.setImageUri(currentPhotoPath);
+                        Log.d("sui plantInfo name","is " + plantInfo.name);
 
                         //save the data to room database
                         MainActivity.myAppDatabase.myDao().addPlant(plantInfo);
 
+                        Log.d("sui save data", "successfully");
                         Toast.makeText(getActivity(),"Plantinfo added succesfully",Toast.LENGTH_SHORT).show();
 
 
@@ -132,21 +144,28 @@ public class AddFragment extends Fragment {
 
 
 
-        @Override
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("sui resultcode",String.valueOf(resultCode));
-            Log.d("sui data",String.valueOf(data));
+        Log.d("sui data",String.valueOf(data));
 
-
-        if (requestCode == Image_Capture_Code) {
+        if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == RESULT_OK) {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                //selectedImageUri = data.getData();
 
-                capturePicture.setImageBitmap(bitmap);
+                try {
+                    bitmap = BitmapFactory.decodeStream(new FileInputStream(currentPhotoPath));
+                    capturePicture.setImageBitmap(bitmap);
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //bitmap = (Bitmap) data.getExtras().get("data");
+
+
                 cameraIcon.setVisibility(getView().GONE);
                 textView.setVisibility(getView().GONE);
+
 
                 name.setVisibility(View.VISIBLE);
                 days.setVisibility(View.VISIBLE);
@@ -154,10 +173,92 @@ public class AddFragment extends Fragment {
                 daysEdit.setVisibility(View.VISIBLE);
                 save.setVisibility(View.VISIBLE);
 
+
+
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
             }
         }
+
+    }
+
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+
+        Log.d("Sui currentPhotoPath","is" + currentPhotoPath);
+        return image;
+    }
+
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+
+            try {
+                photoFile = createImageFile();
+                Log.d("sui photoFile","is null and photoFile is created  " + photoFile);
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(getActivity(),
+                        "com.example.loveplant.provider",
+                        photoFile);
+
+                Log.d("sui photoFile","is not null and photoUri is " + photoURI );
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
+        }
+    }
+
+
+
+//ba bitmap zhuanhuan string
+    public String bitmapToString(Bitmap bitmap){
+        String string=null;
+        ByteArrayOutputStream bStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
+        byte[]bytes=bStream.toByteArray();
+        string=Base64.encodeToString(bytes,Base64.DEFAULT);
+        return string;
+    }
+
+
+
+    /*private void intentBitmap() {
+        //Bitmap to String
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50,baos);
+        String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
+        //save string in SharedPreferences
+        SharedPreferences prePicture = getContext().getSharedPreferences("Picture", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prePicture.edit();
+        editor.putString("cameraImage", imageBase64);
+        editor.commit();
+
+        Log.d("sui","bitmap to string");
+    }*/
+
+
 
         /*Log.d("sui requestcode", String.valueOf(requestCode));
 
@@ -196,34 +297,5 @@ public class AddFragment extends Fragment {
 
             }
         }*/
-
-    }
-
-//ba bitmap zhuanhuan string
-    public String bitmapToString(Bitmap bitmap){
-        String string=null;
-        ByteArrayOutputStream bStream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
-        byte[]bytes=bStream.toByteArray();
-        string=Base64.encodeToString(bytes,Base64.DEFAULT);
-        return string;
-    }
-
-
-
-    private void intentBitmap() {
-        //Bitmap to String
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50,baos);
-        String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
-        //save string in SharedPreferences
-        SharedPreferences prePicture = getContext().getSharedPreferences("Picture", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prePicture.edit();
-        editor.putString("cameraImage", imageBase64);
-        editor.commit();
-
-        Log.d("sui","bitmap to string");
-    }
-
 
 }
