@@ -23,6 +23,9 @@ public class PlantInfo {
     @NonNull
     public String image;
 
+    @NonNull
+    public String timeStampe;
+
     public void setImageUri(@NonNull String image) {
         this.image = image;
     }
@@ -40,6 +43,9 @@ public class PlantInfo {
         return day;
     }
 
+    public String getTimeStampe() {
+        return timeStampe;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -47,5 +53,9 @@ public class PlantInfo {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public void setTimeStampe(@NonNull String timeStampe) {
+        this.timeStampe = timeStampe;
     }
 }

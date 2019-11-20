@@ -32,13 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-//    @Override
-//    public void onBackPressed() {
-//        setResult(1);
-//        super.onBackPressed();
-//
-//    }
         private BottomNavigationView.OnNavigationItemSelectedListener navListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

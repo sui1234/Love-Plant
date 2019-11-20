@@ -3,6 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
     android:background="#ffffff">
 
     <ImageView
@@ -13,26 +14,32 @@
         android:layout_marginLeft="10dp"
         />
 
+
+
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="50dp"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/my_plant_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/name_here"
-            android:textColor="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp"/>
         <TextView
             android:id="@+id/watering_last_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
         <TextView
             android:id="@+id/my_plant_days"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
 
 
 

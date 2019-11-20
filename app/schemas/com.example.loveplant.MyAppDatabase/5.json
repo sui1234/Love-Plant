@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 5,
-    "identityHash": "af2c2f59ec18dddeecf6375399e5c1fc",
+    "identityHash": "e18cfa6a5df892a3b229ecfc1a6e2c8c",
     "entities": [
       {
         "tableName": "plantinfo",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `day` TEXT NOT NULL, `image` TEXT NOT NULL, PRIMARY KEY(`name`, `day`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `day` TEXT NOT NULL, `image` TEXT NOT NULL, `timeStampe` TEXT NOT NULL, PRIMARY KEY(`name`, `day`))",
         "fields": [
           {
             "fieldPath": "name",
@@ -25,6 +25,12 @@
             "columnName": "image",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "timeStampe",
+            "columnName": "timeStampe",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -40,7 +46,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"af2c2f59ec18dddeecf6375399e5c1fc\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e18cfa6a5df892a3b229ecfc1a6e2c8c\")"
     ]
   }
 }

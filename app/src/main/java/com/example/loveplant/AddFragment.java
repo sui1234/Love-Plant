@@ -59,6 +59,7 @@ public class AddFragment extends Fragment {
     private boolean theNameIsExisted;
 
 
+    String timeStamp;
     //private String mFilePath;
     private Bitmap bitmap;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -122,12 +123,12 @@ public class AddFragment extends Fragment {
                             if(inputName.length() == 0 || inputDays.length() == 0) {
                                 Toast.makeText(getActivity(), "Can not be empty", Toast.LENGTH_SHORT).show();
                             }else {
-
                                 //set user input data to PlantInfo
                                 PlantInfo plantInfo = new PlantInfo();
                                 plantInfo.setName(inputName);
                                 plantInfo.setDay(inputDays);
                                 plantInfo.setImageUri(currentPhotoPath);
+                                plantInfo.setTimeStampe(timeStamp);
                                 Log.d("sui plantInfo name", "is " + plantInfo.name);
 
                                 //save the data to room database
@@ -150,19 +151,6 @@ public class AddFragment extends Fragment {
         });
         return v;
 
-    }
-
-
-    public boolean theNameIsExisted(){
-        theNameIsExisted = false;
-        int plantDbSize = MainActivity.myAppDatabase.myDao().getPlantInfo().size();
-        for(int i = 0 ; i < plantDbSize; i++){
-            PlantInfo plantInfo = MainActivity.myAppDatabase.myDao().getPlantInfo().get(i);
-            if(plantInfo.getName().equals(inputName)){
-                theNameIsExisted = true;
-            }
-        }
-        return theNameIsExisted;
     }
 
     @Override
@@ -207,7 +195,8 @@ public class AddFragment extends Fragment {
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -249,6 +238,20 @@ public class AddFragment extends Fragment {
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
+    }
+
+
+
+    public boolean theNameIsExisted(){
+        theNameIsExisted = false;
+        int plantDbSize = MainActivity.myAppDatabase.myDao().getPlantInfo().size();
+        for(int i = 0 ; i < plantDbSize; i++){
+            PlantInfo plantInfo = MainActivity.myAppDatabase.myDao().getPlantInfo().get(i);
+            if(plantInfo.getName().equals(inputName)){
+                theNameIsExisted = true;
+            }
+        }
+        return theNameIsExisted;
     }
 
 

@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class PlantFragment extends Fragment {
@@ -59,16 +62,30 @@ public class PlantFragment extends Fragment {
         listPlants = new ArrayList<>();
         Log.d("Sui getdata","from database");
 
+
+
         //get data from database and show them in Plant.
         List<PlantInfo>plantInfos = MainActivity.myAppDatabase.myDao().getPlantInfo();
 
         System.out.println("Size of list = " + plantInfos.size());
 
+
         for(int i = 0; i<plantInfos.size(); i++)
         {
+
+            String timeStamp = plantInfos.get(i).getTimeStampe();
+            String timeNow = new SimpleDateFormat("dd-MM-yyyy").format(Calendar.getInstance().getTime());
+            dayDiff(timeNow,timeStamp,"dd-MM-yyyy");
+
+            
+            int daysLeft = Integer.parseInt(plantInfos.get(i).getDay()) - dayDiff(timeNow,timeStamp,"dd-MM-yyyy HH:mm:ss");
             Log.d("Sui getdata","for loop");
+
+            Log.d("sui daysLeft" ," is " +daysLeft);
+
+
             listPlants.add(new Plant(plantInfos.get(i).getImage(),plantInfos.get(i).getName(),
-                    plantInfos.get(i).getDay(),plantInfos.get(i).getDay()));
+                    plantInfos.get(i).getDay(),String.valueOf(daysLeft)));
         }
 
     }
@@ -105,6 +122,19 @@ public class PlantFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
         Log.d("sui attachtorecycler","view");
+    }
+
+    public static int dayDiff(String date1,String date2,String format){
+        SimpleDateFormat formater = new SimpleDateFormat(format);
+        int diff = 0;
+        try{
+            int d1 = (int) formater.parse(date1).getTime();
+            int d2 = (int) formater.parse(date2).getTime();
+            diff = (d1-d2)/(1000*60*60*24);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return diff;
     }
 
 }
