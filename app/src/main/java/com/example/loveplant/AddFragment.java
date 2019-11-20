@@ -53,7 +53,10 @@ public class AddFragment extends Fragment {
     private EditText nameEdit;
     private EditText daysEdit;
     private Button save;
+    private String inputName;
+    private String inputDays;
 
+    private boolean theNameIsExisted;
 
 
     //private String mFilePath;
@@ -74,10 +77,6 @@ public class AddFragment extends Fragment {
         nameEdit = v.findViewById(R.id.nameEdit);
         daysEdit = v.findViewById(R.id.daysEdit);
         save = v.findViewById(R.id.saveButton);
-
-        /*mFilePath = Environment.getExternalStorageDirectory().getPath();// get sd directory
-        mFilePath = mFilePath + "/" + "temp.png";
-        Log.d("sui",mFilePath);*/
 
         cameraIcon = v.findViewById(R.id.cameraIcon);
         capturePicture = v.findViewById(R.id.capturePicture);
@@ -111,27 +110,38 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
                 switch(v.getId()){
                     case R.id.saveButton:
-                        String inputName= nameEdit.getText().toString();
-                        String inputDays = daysEdit.getText().toString();
 
-                        //set user input data to PlantInfo
-                        PlantInfo plantInfo = new PlantInfo();
-                        plantInfo.setName(inputName);
-                        plantInfo.setDay(inputDays);
-                        plantInfo.setImageUri(currentPhotoPath);
-                        Log.d("sui plantInfo name","is " + plantInfo.name);
+                        inputName= nameEdit.getText().toString();
+                        inputDays = daysEdit.getText().toString();
+                        theNameIsExisted();
 
-                        //save the data to room database
-                        MainActivity.myAppDatabase.myDao().addPlant(plantInfo);
+                        if(theNameIsExisted == true){
+                            Toast.makeText(getActivity(),"The name is already exist",Toast.LENGTH_SHORT).show();
+                        }else{
 
-                        Log.d("sui save data", "successfully");
-                        Toast.makeText(getActivity(),"Plantinfo added succesfully",Toast.LENGTH_SHORT).show();
+                            if(inputName.length() == 0 || inputDays.length() == 0) {
+                                Toast.makeText(getActivity(), "Can not be empty", Toast.LENGTH_SHORT).show();
+                            }else {
 
+                                //set user input data to PlantInfo
+                                PlantInfo plantInfo = new PlantInfo();
+                                plantInfo.setName(inputName);
+                                plantInfo.setDay(inputDays);
+                                plantInfo.setImageUri(currentPhotoPath);
+                                Log.d("sui plantInfo name", "is " + plantInfo.name);
 
-                        Intent intent;
-                        intent = new Intent(getActivity(),MainActivity.class);
-                        startActivity(intent);
+                                //save the data to room database
+                                MainActivity.myAppDatabase.myDao().addPlant(plantInfo);
 
+                                Log.d("sui save data", "successfully");
+                                Toast.makeText(getActivity(), "Plantinfo added succesfully", Toast.LENGTH_SHORT).show();
+                                Intent intent;
+                                intent = new Intent(getActivity(), MainActivity.class);
+                                startActivity(intent);
+
+                            }
+
+                        }
                         break;
                         default:
                             break;
@@ -143,6 +153,17 @@ public class AddFragment extends Fragment {
     }
 
 
+    public boolean theNameIsExisted(){
+        theNameIsExisted = false;
+        int plantDbSize = MainActivity.myAppDatabase.myDao().getPlantInfo().size();
+        for(int i = 0 ; i < plantDbSize; i++){
+            PlantInfo plantInfo = MainActivity.myAppDatabase.myDao().getPlantInfo().get(i);
+            if(plantInfo.getName().equals(inputName)){
+                theNameIsExisted = true;
+            }
+        }
+        return theNameIsExisted;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -232,7 +253,6 @@ public class AddFragment extends Fragment {
 
 
 
-//ba bitmap zhuanhuan string
     public String bitmapToString(Bitmap bitmap){
         String string=null;
         ByteArrayOutputStream bStream=new ByteArrayOutputStream();
@@ -244,58 +264,5 @@ public class AddFragment extends Fragment {
 
 
 
-    /*private void intentBitmap() {
-        //Bitmap to String
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50,baos);
-        String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
-        //save string in SharedPreferences
-        SharedPreferences prePicture = getContext().getSharedPreferences("Picture", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prePicture.edit();
-        editor.putString("cameraImage", imageBase64);
-        editor.commit();
-
-        Log.d("sui","bitmap to string");
-    }*/
-
-
-
-        /*Log.d("sui requestcode", String.valueOf(requestCode));
-
-        if (resultCode == RESULT_OK) {
-           Log.d("sui resultCode","");
-            if (requestCode == Image_Capture_Code) {
-                FileInputStream fis = null;
-
-                try {
-                    Log.d("sui try", "trying");
-
-                    fis = new FileInputStream(mFilePath); // get data accoding to path
-                    Log.d("sui", "fis" + fis.toString());
-                    bitmap = BitmapFactory.decodeStream(fis);    //get picture
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            intentBitmap();
-                        }
-                    }).start();
-
-                    Intent intent = new Intent(getActivity(), PictureEditInfo.class);
-                    startActivity(intent);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-
-                        if (fis != null)
-                        fis.close();// 关闭流
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }*/
 
 }

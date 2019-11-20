@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Dao;
 
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
         return myViewHolder;
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
@@ -53,6 +56,15 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public Plant getPlantAtPosition(int position){
+        return data.get(position);
+    }
+    public void removeItem(int position){
+        data.remove(position);
+        notifyItemRemoved(position);
+
     }
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder{

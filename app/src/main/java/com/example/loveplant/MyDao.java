@@ -2,6 +2,7 @@ package com.example.loveplant;
 
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -15,4 +16,7 @@ public interface MyDao {
 
     @Query("select * from plantinfo")
     public List<PlantInfo> getPlantInfo();
+
+    @Delete
+    public void deletePlantInfo(PlantInfo plantInfo);
 }
