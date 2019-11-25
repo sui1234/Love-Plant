@@ -3,9 +3,13 @@ package com.example.loveplant;
 public class Watering {
     private int image_plant;
     private int image_water;
+    String image;
+    int ic_watering_can;
 
 
-    public Watering() {
+    public Watering(String image, int ic_watering_can) {
+        this.image = image;
+        this.ic_watering_can = ic_watering_can;
     }
 
     public Watering(int image_plant, int image_water) {

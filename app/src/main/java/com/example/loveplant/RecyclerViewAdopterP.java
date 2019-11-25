@@ -48,8 +48,8 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
 
         //holder.imgMyPlant.setImageResource(R.drawable.tree);
         holder.plantName.setText(data.get(position).getName());
-        holder.days.setText(data.get(position).getDays());
-        holder.lastTime.setText(data.get(position).getWateringLastTime());
+        holder.days.setText("Water every "+ data.get(position).getDays() + " days");
+        holder.daysLeft.setText(data.get(position).getWateringLastTime() + " days left to next watering");
 
     }
 
@@ -72,14 +72,14 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
         private ImageView imgMyPlant;
         private TextView plantName;
         private TextView days;
-        private TextView lastTime;
+        private TextView daysLeft;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imgMyPlant = (ImageView) itemView.findViewById(R.id.img_my_plant);
             plantName = (TextView) itemView.findViewById(R.id.my_plant_name);
             days = (TextView) itemView.findViewById(R.id.my_plant_days);
-            lastTime = (TextView) itemView.findViewById(R.id.watering_last_time);
+            daysLeft = (TextView) itemView.findViewById(R.id.daysLeft);
 
 
         }

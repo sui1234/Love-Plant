@@ -1,6 +1,7 @@
 package com.example.loveplant;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static com.example.loveplant.PlantFragment.dayDiff;
 
 public class WateringFragment extends Fragment {
 
@@ -39,17 +44,33 @@ public class WateringFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdopter);
 
         return v;
-
-
-
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        List<PlantInfo>plantInfos = MainActivity.myAppDatabase.myDao().getPlantInfo();
         listWat = new ArrayList<>();
-        listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
-        listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
+
+        for(int i = 0 ; i < plantInfos.size(); i++){
+
+            String timeNow = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+            String timeStamp = plantInfos.get(i).getTimeStampe();
+            String days = plantInfos.get(i).getDay();
+            Integer diff = dayDiff(timeNow,timeStamp,"yyyyMMdd_HHmmss");
+            Integer daysInt = Integer.parseInt(days);
+
+            if( daysInt == diff +1){
+
+                listWat.add(new Watering(plantInfos.get(i).getImage(), R.drawable.ic_watering_can));
+
+                //listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
+                //Integer.parseInt(plantInfos.get(i).getImage()
+                // && diff < (Integer.parseInt(timeDiffT))
+            }
+
+        }
+
     }
 }
 
