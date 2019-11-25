@@ -14,17 +14,27 @@
         />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="306dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="120dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="50dp">
+
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="40dp"
+            android:textSize="20dp" />
+
         <ImageView
-            android:paddingTop="10dp"
             android:id="@+id/blue_water"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="end"
-
             android:orientation="vertical"
+            android:layout_marginLeft="50dp"
+
+            android:paddingTop="10dp"
             android:src="@mipmap/ic_launcher_round" />
 
     </LinearLayout>

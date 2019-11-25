@@ -1,5 +1,9 @@
 package com.example.loveplant;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,11 +65,12 @@ public class WateringFragment extends Fragment {
             String timeStamp = plantInfos.get(i).getTimeStampe();
             String days = plantInfos.get(i).getDay();
             Integer diff = dayDiff(timeNow,timeStamp,"yyyyMMdd_HHmmss");
-            Integer daysInt = Integer.parseInt(days);
+            Integer daysInt = Integer.valueOf(days);
 
             if( daysInt == diff +1){
+                listWat.add(new Watering(plantInfos.get(i).getImage() , R.drawable.ic_watering_can,plantInfos.get(i).getName()));
 
-                listWat.add(new Watering(plantInfos.get(i).getImage(), R.drawable.ic_watering_can));
+                Log.d("sui getImage"," is" + plantInfos.get(i).getImage());
 
                 //listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
                 //Integer.parseInt(plantInfos.get(i).getImage()

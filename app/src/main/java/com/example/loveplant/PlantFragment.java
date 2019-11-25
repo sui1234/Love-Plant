@@ -84,7 +84,6 @@ public class PlantFragment extends Fragment {
             {
 
                 // update timestampe is timeNow.
-
                 //timeStamp = timeNow;
                 PlantInfo plantInfo = new PlantInfo();
                 plantInfo.setTimeStampe(timeNow);
