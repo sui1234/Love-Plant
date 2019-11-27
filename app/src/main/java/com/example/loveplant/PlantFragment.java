@@ -62,14 +62,14 @@ public class PlantFragment extends Fragment {
         Log.d("Sui getdata","from database");
 
         //get data from database and show them in Plant.
-        List<PlantInfo>plantInfos = MainActivity.myAppDatabase.myDao().getPlantInfo();
+        List<PlantInfo> plantInfos = MainActivity.myAppDatabase.myDao().getPlantInfo();
 
         System.out.println("Size of list = " + plantInfos.size());
 
         for(int i = 0; i<plantInfos.size(); i++)
         {
-
-            String timeStamp = plantInfos.get(i).getTimeStampe();
+            PlantInfo plant = plantInfos.get(i);
+            String timeStamp = plant.getTimeStampe();
             String timeNow = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
             Log.d("sui timeStamp"," is " + timeStamp);
@@ -85,12 +85,14 @@ public class PlantFragment extends Fragment {
 
                 // update timestampe is timeNow.
                 //timeStamp = timeNow;
-                PlantInfo plantInfo = new PlantInfo();
-                plantInfo.setTimeStampe(timeNow);
-                MainActivity.myAppDatabase.myDao().updateTimeStamp(plantInfo);
+
+              //  PlantInfo plantInfo = new PlantInfo();
+
+                plant.setTimeStampe(timeNow);
+
+
+                MainActivity.myAppDatabase.myDao().updateTimeStamp(plant);
                 Toast.makeText(getActivity(),"timeStamp updated..",Toast.LENGTH_SHORT).show();
-
-
 
                 //send this plant image to wateringfragment and show it.
 

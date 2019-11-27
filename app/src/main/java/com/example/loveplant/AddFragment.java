@@ -1,6 +1,10 @@
 package com.example.loveplant;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -24,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -41,6 +46,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class AddFragment extends Fragment {
 
@@ -65,6 +71,7 @@ public class AddFragment extends Fragment {
     static final int REQUEST_TAKE_PHOTO = 1;
     String currentPhotoPath;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +85,7 @@ public class AddFragment extends Fragment {
         nameEdit = v.findViewById(R.id.nameEdit);
         daysEdit = v.findViewById(R.id.daysEdit);
         save = v.findViewById(R.id.saveButton);
+
 
         cameraIcon = v.findViewById(R.id.cameraIcon);
         capturePicture = v.findViewById(R.id.capturePicture);
@@ -104,6 +112,7 @@ public class AddFragment extends Fragment {
             }
 
         });
+
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +161,7 @@ public class AddFragment extends Fragment {
         return v;
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
