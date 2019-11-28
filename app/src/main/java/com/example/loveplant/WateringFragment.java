@@ -1,5 +1,6 @@
 package com.example.loveplant;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -37,6 +38,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.ALARM_SERVICE;
 import static com.example.loveplant.PlantFragment.dayDiff;
 
 public class WateringFragment extends Fragment {
@@ -71,7 +73,6 @@ public class WateringFragment extends Fragment {
         List<PlantInfo>plantInfos = MainActivity.myAppDatabase.myDao().getPlantInfo();
         listWat = new ArrayList<>();
 
-
         for(int i = 0 ; i < plantInfos.size(); i++){
 
             String timeNow = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
@@ -84,15 +85,13 @@ public class WateringFragment extends Fragment {
                 listWat.add(new Watering(plantInfos.get(i).getImage(), R.drawable.ic_watering_can,plantInfos.get(i).getName()));
                 Log.d("sui getImage"," is" + plantInfos.get(i).getImage());
 
-                addNotification();
                 //listWat.add(new Watering(R.drawable.tree,R.drawable.ic_watering_can));
             }
-
         }
-
     }
 
-    private void addNotification(){
+
+   /* private void addNotification(){
         Intent intent = new Intent(getActivity(), MainActivity.class);
         NotificationManager manager = (NotificationManager) getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
         //Add channelId
@@ -121,6 +120,6 @@ public class WateringFragment extends Fragment {
 
         manager.notify(1, notification);
 
-    }
+    }*/
 }
 

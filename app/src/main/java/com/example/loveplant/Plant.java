@@ -45,7 +45,7 @@ public class Plant {
         return days;
     }
 
-    public String getWateringLastTime() {
+    public String getDaysLeft() {
         return daysLeft;
     }
 }

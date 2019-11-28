@@ -48,7 +48,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
-public class AddFragment extends Fragment {
+public class AddFragment extends Fragment{
 
     private View v;
     private ImageView cameraIcon;
@@ -74,7 +74,7 @@ public class AddFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
 
         v = inflater.inflate(R.layout.add_fragment,container,false);
 
@@ -92,27 +92,18 @@ public class AddFragment extends Fragment {
         textView = v.findViewById(R.id.textView);
 
 
-        //cameraIcon.setOnClickListener(this);
-        //save.setOnClickListener(this);
+        cameraIcon.setOnClickListener((View.OnClickListener) this);
+        save.setOnClickListener((View.OnClickListener) this);
+
         cameraIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //startActivityForResult(intent, Image_Capture_Code);
                 dispatchTakePictureIntent();
 
-                //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                // Uri photoUri = Uri.fromFile(new File(mFilePath)); // pass path
-                //Uri photoUri = FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",new File(mFilePath));
-                //intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);// change path
-                //Log.d("sui photouri",photoUri.toString());
-                //startActivityForResult(intent, Image_Capture_Code);
-                //getActivity().onBackPressed();
             }
 
         });
-
 
 
         save.setOnClickListener(new View.OnClickListener() {

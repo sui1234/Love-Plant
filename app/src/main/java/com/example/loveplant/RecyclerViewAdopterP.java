@@ -48,8 +48,24 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
 
         //holder.imgMyPlant.setImageResource(R.drawable.tree);
         holder.plantName.setText(data.get(position).getName());
-        holder.days.setText("Water every "+ data.get(position).getDays() + " days");
-        holder.daysLeft.setText(data.get(position).getWateringLastTime() + " days left to next watering");
+        String days = data.get(position).getDays();
+
+        if(Integer.parseInt(days) <= 1){
+            holder.days.setText("Water every "+ data.get(position).getDays() + " day");
+        }else{
+            holder.days.setText("Water every "+ data.get(position).getDays() + " days");
+        }
+
+
+        String dayLeft = data.get(position).getDaysLeft();
+
+        if(Integer.parseInt(dayLeft) <= 1){
+
+            holder.daysLeft.setText(data.get(position).getDaysLeft() + " day left to next watering");
+        }else{
+            holder.daysLeft.setText(data.get(position).getDaysLeft() + " days left to next watering");
+
+        }
 
     }
 

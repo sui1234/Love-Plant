@@ -1,5 +1,8 @@
 package com.example.loveplant;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static android.content.Context.ALARM_SERVICE;
 
 public class PlantFragment extends Fragment {
 
@@ -69,6 +74,7 @@ public class PlantFragment extends Fragment {
         for(int i = 0; i<plantInfos.size(); i++)
         {
             PlantInfo plant = plantInfos.get(i);
+
             String timeStamp = plant.getTimeStampe();
             String timeNow = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 
@@ -83,20 +89,17 @@ public class PlantFragment extends Fragment {
             if(daysLeft == 0)
             {
 
-                // update timestampe is timeNow.
+                //update timestampe is timeNow.
                 //timeStamp = timeNow;
 
-              //  PlantInfo plantInfo = new PlantInfo();
+                //PlantInfo plantInfo = new PlantInfo();
 
                 plant.setTimeStampe(timeNow);
-
 
                 MainActivity.myAppDatabase.myDao().updateTimeStamp(plant);
                 Toast.makeText(getActivity(),"timeStamp updated..",Toast.LENGTH_SHORT).show();
 
-                //send this plant image to wateringfragment and show it.
-
-
+                createNotification();
             }
 
             Log.d("Sui getdata","for loop");
@@ -157,6 +160,19 @@ public class PlantFragment extends Fragment {
             e.printStackTrace();
         }
         return diff;
+    }
+
+    public void createNotification () {
+        Intent myIntent = new Intent(getActivity() , NotifyService.class ) ;
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService( ALARM_SERVICE ) ;
+        PendingIntent pendingIntent = PendingIntent.getService ( getActivity(), 0 , myIntent , 0 ) ;
+        Calendar calendar = Calendar. getInstance () ;
+        calendar.set(Calendar. SECOND , 0 ) ;
+        calendar.set(Calendar. MINUTE , 0 ) ;
+        calendar.set(Calendar. HOUR , 0 ) ;
+        calendar.set(Calendar. AM_PM , Calendar. AM ) ;
+        calendar.add(Calendar. DAY_OF_MONTH , 1 ) ;
+        alarmManager.setRepeating(AlarmManager. RTC_WAKEUP , calendar.getTimeInMillis() , 1000 * 60 * 60 * 24 , pendingIntent) ;
     }
 
 }
