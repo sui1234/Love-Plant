@@ -92,9 +92,6 @@ public class AddFragment extends Fragment{
         textView = v.findViewById(R.id.textView);
 
 
-        cameraIcon.setOnClickListener((View.OnClickListener) this);
-        save.setOnClickListener((View.OnClickListener) this);
-
         cameraIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

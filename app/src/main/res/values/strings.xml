@@ -5,7 +5,7 @@
     <string name="title_my_plants"> My plants</string>
     <string name="camera">Click camera icon to take a photo</string>
     <string name="name">Name</string>
-    <string name="days">Interval (days)</string>
+    <string name="days">Watering interval (days)</string>
     <string name="saveButton">Save</string>
     <string name="name_here">Name</string>
     <string name="days_left">Days left</string>

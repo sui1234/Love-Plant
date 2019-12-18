@@ -86,7 +86,7 @@ public class PlantFragment extends Fragment {
             Log.d("sui dayDiff", " is " + dayD );
 
             int daysLeft = Integer.parseInt(plantInfos.get(i).getDay()) - dayDiff(timeNow,timeStamp,"yyyyMMdd_HHmmss");
-            if(daysLeft == 0)
+            if(daysLeft <0 )
             {
 
                 //update timestampe is timeNow.
