@@ -88,16 +88,14 @@ public class PlantFragment extends Fragment {
             int daysLeft = Integer.parseInt(plantInfos.get(i).getDay()) - dayDiff(timeNow,timeStamp,"yyyyMMdd_HHmmss");
             if(daysLeft <0 )
             {
-
                 //update timestampe is timeNow.
                 //timeStamp = timeNow;
-
                 //PlantInfo plantInfo = new PlantInfo();
 
-                plant.setTimeStampe(timeNow);
+                /*plant.setTimeStampe(timeNow);
 
                 MainActivity.myAppDatabase.myDao().updateTimeStamp(plant);
-                Toast.makeText(getActivity(),"timeStamp updated..",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"timeStamp updated..",Toast.LENGTH_SHORT).show();*/
 
                 createNotification();
             }

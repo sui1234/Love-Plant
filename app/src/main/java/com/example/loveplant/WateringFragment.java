@@ -73,6 +73,7 @@ public class WateringFragment extends Fragment implements RecyclerViewAdopterW.O
                     public void onClick(DialogInterface dialog, int which) {
 
                         updateWateringTime();
+
                         showPlanInfo();
 
                     }
@@ -114,7 +115,7 @@ public class WateringFragment extends Fragment implements RecyclerViewAdopterW.O
             Integer diff = dayDiff(timeNow,timeStamp,"yyyyMMdd_HHmmss");
             Integer daysInt = Integer.valueOf(days);
 
-            if( daysInt == diff){
+            if( daysInt <= diff){
                 listWat.add(new Watering(plantInfos.get(i).getImage(), R.drawable.ic_watering_can,plantInfos.get(i).getName()));
                 Log.d("sui getImage"," is" + plantInfos.get(i).getImage());
 

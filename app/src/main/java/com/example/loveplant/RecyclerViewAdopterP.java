@@ -15,6 +15,8 @@ import androidx.room.Dao;
 import java.util.List;
 
 import static android.net.Uri.parse;
+import static java.lang.Integer.valueOf;
+import static java.lang.Math.abs;
 
 public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopterP.MyViewHolder> {
 
@@ -59,12 +61,14 @@ public class RecyclerViewAdopterP extends RecyclerView.Adapter<RecyclerViewAdopt
 
         String dayLeft = data.get(position).getDaysLeft();
 
-        if(Integer.parseInt(dayLeft) <= 1){
-
+        if(Integer.parseInt(dayLeft) <= 1 && Integer.parseInt(dayLeft) > -1){
             holder.daysLeft.setText(data.get(position).getDaysLeft() + " day left to next watering");
+        }else if(Integer.parseInt((dayLeft)) == -1){
+            holder.daysLeft.setText("You have missed 1 day to water you plant");
+        }else if(Integer.parseInt((dayLeft)) < -1){
+            holder.daysLeft.setText("You have missed " + abs(valueOf(data.get(position).getDaysLeft())) + " day to water you plant");
         }else{
             holder.daysLeft.setText(data.get(position).getDaysLeft() + " days left to next watering");
-
         }
 
     }
